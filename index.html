@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Weather</h1>
+        <div class="input-section">
+            <input type="text" id="zipcode" placeholder="Enter Zip Code" class="form-control mb-2">
+            <input type="text" id="city" placeholder="Enter City" class="form-control mb-2">
+            <input type="text" id="state" placeholder="Enter State" class="form-control mb-2">
+            <button id="getWeatherBtn" class="btn btn-primary mb-2">Get Weather</button>
+            <button id="convertTempBtn" class="btn btn-secondary mb-2">Convert to Celsius</button>
+            <button id="getLocationBtn" class="btn btn-info mb-2">Use Current Location</button>
+        </div>
+        <div id="weatherDisplay" class="weather-display">
+        </div>
+    </div>
+    <script src="api.js"></script>
+</body>
+</html>
