@@ -59,17 +59,16 @@ function displayWeather(data, city) {
     const conditions = data.weather[0].description;
     const weatherIcon = getWeatherIcon(conditions);
 
-    document.getElementById('current-date').textContent = date;
-    document.getElementById('city').textContent = city;
-    document.getElementById('temperature').textContent = `${currentTempF}°F`;
-    document.getElementById('conditions').textContent = conditions;
+    document.getElementById('location').textContent = city;
+    document.getElementById('temperature').innerHTML = `${weatherIcon} ${currentTempF}°F`;
+    document.getElementById('feels-like').textContent = `${data.main.feels_like}°F`;
+    document.getElementById('weather-condition').textContent = conditions.charAt(0).toUpperCase() + conditions.slice(1);
     document.getElementById('temp-hi-lo').innerHTML = `High: ${tempHi}°F / Low: ${tempLo}°F`;
 
-    // Ensure only one weather icon element is updated
     const weatherIconElement = document.getElementById('weather-icon');
-    weatherIconElement.innerHTML = weatherIcon; // Set the icon
+    weatherIconElement.innerHTML = weatherIcon; 
 
-    weatherIconElement.className = 'weather-icon'; // Reset class
+    weatherIconElement.className = 'weather-icon'; 
     if (conditions.includes('rain')) {
         weatherIconElement.classList.add('rainy');
     } else if (conditions.includes('cloud')) {
@@ -77,10 +76,6 @@ function displayWeather(data, city) {
     } else {
         weatherIconElement.classList.add('sunny');
     }
-
-    const dateObj = new Date();
-    document.getElementById('time').textContent = dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    document.getElementById('day').textContent = dateObj.toLocaleDateString(undefined, { weekday: 'long' });
 }
 
 function displayForecast(forecastList) {
@@ -90,11 +85,11 @@ function displayForecast(forecastList) {
     for (let i = 0; i < forecastList.length; i += 8) { // 8 * 3-hour segments = 1 day
         const forecast = forecastList[i];
         const forecastElement = document.createElement('div');
-        forecastElement.className = 'flex-column';
+        forecastElement.className = 'forecast-day';
         forecastElement.innerHTML = `
-            <p class="small mb-1">${new Date(forecast.dt * 1000).toLocaleDateString(undefined, { weekday: 'short' })}</p>
-            <p class="small mb-0"><strong>${forecast.main.temp_max}°F</strong></p>
-            <p class="small mb-0">${forecast.weather[0].description}</p>
+            <h5>${new Date(forecast.dt * 1000).toLocaleDateString(undefined, { weekday: 'short' })}</h5>
+            <p><strong>${forecast.main.temp_max}°F</strong></p>
+            <p>${forecast.weather[0].description}</p>
         `;
         forecastData.appendChild(forecastElement);
     }
@@ -102,11 +97,11 @@ function displayForecast(forecastList) {
 
 function convertTemperature() {
     if (isCelsius) {
-        document.getElementById('temperature').innerHTML = getWeatherIcon(document.getElementById('conditions').textContent) + ` ${currentTempF}°F`;
+        document.getElementById('temperature').innerHTML = getWeatherIcon(document.getElementById('weather-condition').textContent) + ` ${currentTempF}°F`;
         isCelsius = false;
     } else {
         const tempC = ((currentTempF - 32) * 5 / 9).toFixed(2);
-        document.getElementById('temperature').innerHTML = getWeatherIcon(document.getElementById('conditions').textContent) + ` ${tempC}°C`;
+        document.getElementById('temperature').innerHTML = getWeatherIcon(document.getElementById('weather-condition').textContent) + ` ${tempC}°C`;
         isCelsius = true;
     }
 }

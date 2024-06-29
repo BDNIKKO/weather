@@ -1,121 +1,55 @@
-/* Basic styles */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f0f0f0;
-  }
-  
-  header {
-    background-color: #333;
-    color: #fff;
-    padding: 1em;
-    text-align: center;
-  }
-  
-  #input-section {
-    background-color: #fff;
-    padding: 1em;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
-  }
-  
-  #weather-section {
-    background: linear-gradient(135deg, #89fffd 0%, #ef32d9 100%);
-  }
-  
-  .weather-card {
-    border-radius: 15px;
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
-    color: #fff;
-    box-shadow: #333;
+    background-color: #6695c4;
+}
 
-  }
-  
-  .weather-card .card-body {
-    padding: 2rem;
-  }
-  
-  .weather-icon {
-    font-size: 6rem;
-    margin-bottom: 10px;
-  }
-  
-  .temperature {
-    font-size: 5rem;
-    margin-bottom: 10px;
-  }
-  
-  .forecast {
-    background: rgba(0, 0, 0, 0.1);
+.card {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.weather-icon {
+    font-size: 2rem;
+}
+
+.rainy {
+    color: #00f;
+}
+
+.cloudy {
+    color: #888;
+}
+
+.sunny {
+    color: #ffa500;
+}
+
+#forecast {
+    display: flex;
+    justify-content: space-around;
+}
+
+.forecast-day {
+    background-color: rgba(62, 106, 183, 0.8);
+    border-radius: 15px;
     padding: 10px;
-    border-radius: 10px;
-    backdrop-filter: blur(5px);
-  }
-  
-  .forecast .flex-column {
-    margin: 10px;
-    border: 1px solid #fff;
-    padding: 10px;
-    border-radius: 10px;
-    background: rgba(0, 0, 0, 0.2);
-  }
-  
-  @media (max-width: 600px) {
-    /* Responsive styles for mobile devices */
-    body {
-      font-size: 14px;
-    }
-  
-    .card-body {
-      padding: 10px;
-    }
-  
-    .weather-display {
-      margin-top: 10px;
-    }
-  }
-  
-  /* Animations */
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-  
-  #weather-data {
-    animation: fadeIn 1s ease-in-out;
-  }
-  
-  /* Weather condition animations */
-  @keyframes rainAnimation {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
-  }
-  
-  @keyframes sunAnimation {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-  
-  @keyframes cloudAnimation {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(20px); }
-  }
-  
-  .rainy .weather-icon {
-    animation: rainAnimation 1s infinite alternate;
-  }
-  
-  .sunny .weather-icon {
-    animation: sunAnimation 5s linear infinite;
-  }
-  
-  .cloudy .weather-icon {
-    animation: cloudAnimation 3s infinite alternate;
-  }
+    text-align: center;
+    width: 30%;
+}
+
+.forecast-day h5 {
+    margin-top: 0;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.forecast-day {
+    animation: fadeIn 2s ease-in-out;
+}
