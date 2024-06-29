@@ -1,53 +1,120 @@
+/* Basic styles */
 body {
-    background-color: #f0f8ff;
-    font-family: Arial, sans-serif;
-}
-
-.container {
-    margin-top: 50px;
-}
-
-.input-section {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+  }
+  
+  header {
+    background-color: #333;
+    color: #fff;
+    padding: 1em;
     text-align: center;
-    margin-bottom: 30px;
-}
-
-.weather-display {
-    text-align: center;
+  }
+  
+  #input-section {
+    background-color: #fff;
+    padding: 1em;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin-top: 20px;
-}
-
-.weather-display div {
-    margin: 10px 0;
-}
-
-.sunny {
-    background-color: #ffeb3b;
-}
-
-.rainy {
-    background-color: #2196f3;
-}
-
-.cloudy {
-    background-color: #9e9e9e;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-.weather-display {
-    animation: fadeIn 1s ease-in;
-}
-
-@media (max-width: 600px) {
-    .input-section {
-        flex-direction: column;
+  }
+  
+  #weather-section {
+    background: linear-gradient(135deg, #89fffd 0%, #ef32d9 100%);
+  }
+  
+  .weather-card {
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    color: #fff;
+  }
+  
+  .weather-card .card-body {
+    padding: 2rem;
+  }
+  
+  .weather-icon {
+    font-size: 6rem;
+    margin-bottom: 10px;
+  }
+  
+  .temperature {
+    font-size: 5rem;
+    margin-bottom: 10px;
+  }
+  
+  .forecast {
+    background: rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    border-radius: 10px;
+    backdrop-filter: blur(5px);
+  }
+  
+  .forecast .flex-column {
+    margin: 10px;
+    border: 1px solid #fff;
+    padding: 10px;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.2);
+  }
+  
+  @media (max-width: 600px) {
+    /* Responsive styles for mobile devices */
+    body {
+      font-size: 14px;
     }
-
+  
+    .card-body {
+      padding: 10px;
+    }
+  
     .weather-display {
-        font-size: 0.8em;
+      margin-top: 10px;
     }
-}
+  }
+  
+  /* Animations */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  #weather-data {
+    animation: fadeIn 1s ease-in-out;
+  }
+  
+  /* Weather condition animations */
+  @keyframes rainAnimation {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  
+  @keyframes sunAnimation {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  @keyframes cloudAnimation {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(20px); }
+  }
+  
+  .rainy .weather-icon {
+    animation: rainAnimation 1s infinite alternate;
+  }
+  
+  .sunny .weather-icon {
+    animation: sunAnimation 5s linear infinite;
+  }
+  
+  .cloudy .weather-icon {
+    animation: cloudAnimation 3s infinite alternate;
+  }
+  
