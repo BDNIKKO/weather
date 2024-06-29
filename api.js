@@ -58,6 +58,7 @@ function displayWeather(data, city) {
     const tempLo = data.main.temp_min;
     const conditions = data.weather[0].description;
     const weatherIcon = getWeatherIcon(conditions);
+    const weatherBackground = getWeatherBackground(conditions);
 
     document.getElementById('location').textContent = city;
     document.getElementById('temperature').innerHTML = `${weatherIcon} ${currentTempF}°F`;
@@ -66,15 +67,40 @@ function displayWeather(data, city) {
     document.getElementById('temp-hi-lo').innerHTML = `High: ${tempHi}°F / Low: ${tempLo}°F`;
 
     const weatherIconElement = document.getElementById('weather-icon');
-    weatherIconElement.innerHTML = weatherIcon; 
+    weatherIconElement.innerHTML = weatherIcon;
 
-    weatherIconElement.className = 'weather-icon'; 
+    weatherIconElement.className = 'weather-icon';
     if (conditions.includes('rain')) {
         weatherIconElement.classList.add('rainy');
     } else if (conditions.includes('cloud')) {
         weatherIconElement.classList.add('cloudy');
     } else {
         weatherIconElement.classList.add('sunny');
+    }
+
+    // Change the background image based on weather conditions
+    document.querySelector('.bg-image img').src = weatherBackground;
+}
+
+function getWeatherBackground(conditions) {
+    if (conditions.includes('rain')) {
+        return 'images/rainy.jpg';
+    } else if (conditions.includes('cloud')) {
+        return 'images/cloudy.jpg';
+    } else if (conditions.includes('snow')) {
+        return 'images/snowy.jpg';
+    } else {
+        return 'images/clear.jpg';
+    }
+}
+
+function getWeatherIcon(conditions) {
+    if (conditions.includes('rain')) {
+        return '<i class="fas fa-cloud-showers-heavy"></i>';
+    } else if (conditions.includes('cloud')) {
+        return '<i class="fas fa-cloud"></i>';
+    } else {
+        return '<i class="fas fa-sun"></i>';
     }
 }
 
@@ -103,15 +129,5 @@ function convertTemperature() {
         const tempC = ((currentTempF - 32) * 5 / 9).toFixed(2);
         document.getElementById('temperature').innerHTML = getWeatherIcon(document.getElementById('weather-condition').textContent) + ` ${tempC}°C`;
         isCelsius = true;
-    }
-}
-
-function getWeatherIcon(conditions) {
-    if (conditions.includes('rain')) {
-        return '<i class="fas fa-cloud-showers-heavy"></i>';
-    } else if (conditions.includes('cloud')) {
-        return '<i class="fas fa-cloud"></i>';
-    } else {
-        return '<i class="fas fa-sun"></i>';
     }
 }

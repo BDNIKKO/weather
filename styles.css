@@ -1,5 +1,5 @@
 body {
-    background-color: #6695c4;
+    background-color: #f5f6f7;
 }
 
 .card {
@@ -34,7 +34,7 @@ body {
 }
 
 .forecast-day {
-    background-color: rgba(62, 106, 183, 0.8);
+    background-color: rgba(255, 255, 255, 0.8);
     border-radius: 15px;
     padding: 10px;
     text-align: center;
