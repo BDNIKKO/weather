@@ -61,12 +61,14 @@ function displayWeather(data, city) {
 
     document.getElementById('current-date').textContent = date;
     document.getElementById('city').textContent = city;
-    document.getElementById('temperature').innerHTML = `<span class="weather-icon">${weatherIcon}</span> ${currentTempF}°F`;
+    document.getElementById('temperature').textContent = `${currentTempF}°F`;
     document.getElementById('conditions').textContent = conditions;
     document.getElementById('temp-hi-lo').innerHTML = `High: ${tempHi}°F / Low: ${tempLo}°F`;
 
     // Ensure only one weather icon element is updated
-    const weatherIconElement = document.querySelector('.weather-icon');
+    const weatherIconElement = document.getElementById('weather-icon');
+    weatherIconElement.innerHTML = weatherIcon; // Set the icon
+
     weatherIconElement.className = 'weather-icon'; // Reset class
     if (conditions.includes('rain')) {
         weatherIconElement.classList.add('rainy');

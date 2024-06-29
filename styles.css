@@ -30,6 +30,8 @@ body {
     background: rgba(255, 255, 255, 0.2);
     backdrop-filter: blur(10px);
     color: #fff;
+    box-shadow: #333;
+
   }
   
   .weather-card .card-body {
@@ -117,4 +119,3 @@ body {
   .cloudy .weather-icon {
     animation: cloudAnimation 3s infinite alternate;
   }
-  
