@@ -1,11 +1,12 @@
 body {
-    background-color: #f5f6f7;
+    background-color: #526c87;
 }
 
 .card {
     position: relative;
     overflow: hidden;
     transition: transform 0.2s;
+    color: #fff; 
 }
 
 .card:hover {
@@ -14,18 +15,6 @@ body {
 
 .weather-icon {
     font-size: 2rem;
-}
-
-.rainy {
-    color: #00f;
-}
-
-.cloudy {
-    color: #888;
-}
-
-.sunny {
-    color: #ffa500;
 }
 
 #forecast {
@@ -39,6 +28,7 @@ body {
     padding: 10px;
     text-align: center;
     width: 30%;
+    color: #000;  
 }
 
 .forecast-day h5 {
@@ -52,4 +42,11 @@ body {
 
 .forecast-day {
     animation: fadeIn 2s ease-in-out;
+}
+
+/* better text legibility inside the card */ 
+.card .card-img-overlay h4,
+.card .card-img-overlay p,
+.card .card-img-overlay h5 {
+    color: #fff; 
 }

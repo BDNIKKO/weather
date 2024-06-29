@@ -1,7 +1,9 @@
-document.getElementById('zip-code-btn').addEventListener('click', getWeatherByZip);
-document.getElementById('city-state-btn').addEventListener('click', getWeatherByCityState);
-document.getElementById('geo-btn').addEventListener('click', getWeatherByGeo);
-document.getElementById('convert-temp').addEventListener('click', convertTemperature);
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('zip-code-btn').addEventListener('click', getWeatherByZip);
+    document.getElementById('city-state-btn').addEventListener('click', getWeatherByCityState);
+    document.getElementById('geo-btn').addEventListener('click', getWeatherByGeo);
+    document.getElementById('convert-temp').addEventListener('click', convertTemperature);
+});
 
 let currentTempF = 0;
 let isCelsius = false;
@@ -46,17 +48,16 @@ async function getWeatherData(lat, lon, city) {
     const weatherResponse = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=imperial&appid=${apiKey}`);
     const weatherData = await weatherResponse.json();
     const forecastResponse = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=imperial&appid=${apiKey}`);
-    const forecastDataCache = await forecastResponse.json();
+    const forecastData = await forecastResponse.json();
     displayWeather(weatherData, city);
-    displayForecast(forecastDataCache.list);
+    displayForecast(forecastData.list);
 }
 
 function displayWeather(data, city) {
-    const date = new Date().toLocaleDateString();
     currentTempF = data.main.temp;
     const tempHi = data.main.temp_max;
     const tempLo = data.main.temp_min;
-    const conditions = data.weather[0].description;
+    const conditions = data.weather[0].description.toLowerCase();
     const weatherIcon = getWeatherIcon(conditions);
     const weatherBackground = getWeatherBackground(conditions);
 
@@ -64,7 +65,6 @@ function displayWeather(data, city) {
     document.getElementById('temperature').innerHTML = `${weatherIcon} ${currentTempF}°F`;
     document.getElementById('feels-like').textContent = `${data.main.feels_like}°F`;
     document.getElementById('weather-condition').textContent = conditions.charAt(0).toUpperCase() + conditions.slice(1);
-    document.getElementById('temp-hi-lo').innerHTML = `High: ${tempHi}°F / Low: ${tempLo}°F`;
 
     const weatherIconElement = document.getElementById('weather-icon');
     weatherIconElement.innerHTML = weatherIcon;
@@ -74,21 +74,22 @@ function displayWeather(data, city) {
         weatherIconElement.classList.add('rainy');
     } else if (conditions.includes('cloud')) {
         weatherIconElement.classList.add('cloudy');
+    } else if (conditions.includes('snow')) {
+        weatherIconElement.classList.add('snowy');
     } else {
         weatherIconElement.classList.add('sunny');
     }
 
-    // Change the background image based on weather conditions
     document.querySelector('.bg-image img').src = weatherBackground;
 }
 
 function getWeatherBackground(conditions) {
-    if (conditions.includes('rain')) {
+    if (conditions.includes('thunderstorm') || conditions.includes('drizzle') || conditions.includes('rain')) {
         return 'images/rainy.jpg';
-    } else if (conditions.includes('cloud')) {
-        return 'images/cloudy.jpg';
-    } else if (conditions.includes('snow')) {
+    } else if (conditions.includes('snow') || conditions.includes('sleet')) {
         return 'images/snowy.jpg';
+    } else if (conditions.includes('mist') || conditions.includes('smoke') || conditions.includes('haze') || conditions.includes('fog') || conditions.includes('clouds')) {
+        return 'images/cloudy.jpg';
     } else {
         return 'images/clear.jpg';
     }
@@ -99,6 +100,8 @@ function getWeatherIcon(conditions) {
         return '<i class="fas fa-cloud-showers-heavy"></i>';
     } else if (conditions.includes('cloud')) {
         return '<i class="fas fa-cloud"></i>';
+    } else if (conditions.includes('snow')) {
+        return '<i class="fas fa-snowflake"></i>';
     } else {
         return '<i class="fas fa-sun"></i>';
     }
@@ -108,7 +111,7 @@ function displayForecast(forecastList) {
     const forecastData = document.getElementById('forecast');
     forecastData.innerHTML = '';
 
-    for (let i = 0; i < forecastList.length; i += 8) { // 8 * 3-hour segments = 1 day
+    for (let i = 0; i < forecastList.length; i += 8) { 
         const forecast = forecastList[i];
         const forecastElement = document.createElement('div');
         forecastElement.className = 'forecast-day';
