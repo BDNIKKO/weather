@@ -14,8 +14,8 @@
             <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="col-md-10 col-lg-8 col-xl-6">
                     <div class="card bg-dark text-white" style="border-radius: 40px;">
-                        <div class="bg-image" style="border-radius: 35px;">
-                            <img src="images\clear.jpg" class="card-img" alt="weather" />
+                        <div class="bg-image" style="border-radius: 35px; overflow: hidden;">
+                            <img src="images/clear.jpg" class="card-img img-fluid" alt="weather" />
                             <div class="mask" style="background-color: rgba(190, 216, 232, .5);"></div>
                         </div>
                         <div class="card-img-overlay text-dark p-5">
@@ -28,19 +28,19 @@
                     </div>
                     <div class="mt-3">
                         <input type="text" id="zip-code" class="form-control" placeholder="Enter ZIP Code">
-                        <button id="zip-code-btn" class="btn btn-primary mt-2">Get Weather by ZIP</button>
+                        <button id="zip-code-btn" class="btn btn-primary mt-2 w-100">Get Weather by ZIP</button>
                     </div>
                     <div class="mt-3">
                         <input type="text" id="city-state" class="form-control" placeholder="Enter City, State">
-                        <button id="city-state-btn" class="btn btn-primary mt-2">Get Weather by City/State</button>
+                        <button id="city-state-btn" class="btn btn-primary mt-2 w-100">Get Weather by City/State</button>
                     </div>
                     <div class="mt-3">
-                        <button id="geo-btn" class="btn btn-primary">Get Weather by Current Location</button>
+                        <button id="geo-btn" class="btn btn-primary w-100">Get Weather by Current Location</button>
                     </div>
                     <div class="mt-3">
-                        <button id="convert-temp" class="btn btn-secondary">Convert to Celsius</button>
+                        <button id="convert-temp" class="btn btn-secondary w-100">Convert to Celsius</button>
                     </div>
-                    <div id="forecast" class="mt-5 d-flex justify-content-around">
+                    <div id="forecast" class="mt-5 d-flex flex-wrap justify-content-around">
                     </div>
                 </div>
             </div>

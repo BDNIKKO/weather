@@ -19,6 +19,7 @@ body {
 
 #forecast {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-around;
 }
 
@@ -27,7 +28,9 @@ body {
     border-radius: 15px;
     padding: 10px;
     text-align: center;
-    width: 30%;
+    width: 100%;
+    max-width: 200px;
+    margin: 10px;
     color: #000;  
 }
 
@@ -44,9 +47,71 @@ body {
     animation: fadeIn 2s ease-in-out;
 }
 
-/* better text legibility inside the card */ 
 .card .card-img-overlay h4,
 .card .card-img-overlay p,
 .card .card-img-overlay h5 {
     color: #fff; 
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 1200px) {
+    .card {
+        border-radius: 20px;
+    }
+
+    .bg-image {
+        border-radius: 15px;
+    }
+}
+
+@media (max-width: 992px) {
+    .forecast-day {
+        max-width: 150px;
+    }
+    
+    .card-img-overlay {
+        padding: 20px;
+    }
+
+    .weather-icon {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .card-img-overlay {
+        padding: 15px;
+    }
+
+    .weather-icon {
+        font-size: 1.2rem;
+    }
+    
+    .forecast-day {
+        max-width: 100px;
+    }
+}
+
+@media (max-width: 576px) {
+    .card {
+        margin: 10px;
+    }
+    
+    .card-img-overlay {
+        padding: 10px;
+    }
+
+    .display-2 {
+        font-size: 2rem;
+    }
+
+    .weather-icon {
+        font-size: 1rem;
+    }
+
+    .forecast-day {
+        max-width: 80px;
+        padding: 5px;
+        margin: 5px;
+    }
 }

@@ -68,17 +68,8 @@ function displayWeather(data, city) {
 
     const weatherIconElement = document.getElementById('weather-icon');
     weatherIconElement.innerHTML = weatherIcon;
-
     weatherIconElement.className = 'weather-icon';
-    if (conditions.includes('rain')) {
-        weatherIconElement.classList.add('rainy');
-    } else if (conditions.includes('cloud')) {
-        weatherIconElement.classList.add('cloudy');
-    } else if (conditions.includes('snow')) {
-        weatherIconElement.classList.add('snowy');
-    } else {
-        weatherIconElement.classList.add('sunny');
-    }
+    weatherIconElement.classList.add(getWeatherConditionClass(conditions));
 
     document.querySelector('.bg-image img').src = weatherBackground;
 }
@@ -104,6 +95,18 @@ function getWeatherIcon(conditions) {
         return '<i class="fas fa-snowflake"></i>';
     } else {
         return '<i class="fas fa-sun"></i>';
+    }
+}
+
+function getWeatherConditionClass(conditions) {
+    if (conditions.includes('rain')) {
+        return 'rainy';
+    } else if (conditions.includes('cloud')) {
+        return 'cloudy';
+    } else if (conditions.includes('snow')) {
+        return 'snowy';
+    } else {
+        return 'sunny';
     }
 }
 
