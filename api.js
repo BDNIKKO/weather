@@ -8,11 +8,12 @@ document.addEventListener('DOMContentLoaded', function() {
 let currentTempF = 0;
 let isCelsius = false;
 const apiKey = 'f9acd824dab7816e7165a2c185c13d65';
+const proxyUrl = ''; // Set to 'https://cors-anywhere.herokuapp.com/' if needed for CORS
 
 async function getWeatherByZip() {
     const zipCode = document.getElementById('zip-code').value;
     if (zipCode) {
-        const geoResponse = await fetch(`http://api.openweathermap.org/geo/1.0/zip?zip=${zipCode},US&appid=${apiKey}`);
+        const geoResponse = await fetch(`${proxyUrl}https://api.openweathermap.org/geo/1.0/zip?zip=${zipCode},US&appid=${apiKey}`);
         const geoData = await geoResponse.json();
         getWeatherData(geoData.lat, geoData.lon, geoData.name);
     } else {
@@ -24,7 +25,7 @@ async function getWeatherByCityState() {
     const cityState = document.getElementById('city-state').value;
     if (cityState) {
         const [city, state] = cityState.split(',').map(item => item.trim());
-        const geoResponse = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city},${state},US&appid=${apiKey}`);
+        const geoResponse = await fetch(`${proxyUrl}https://api.openweathermap.org/geo/1.0/direct?q=${city},${state},US&appid=${apiKey}`);
         const geoData = await geoResponse.json();
         getWeatherData(geoData[0].lat, geoData[0].lon, geoData[0].name);
     } else {
@@ -45,9 +46,9 @@ async function getWeatherByGeo() {
 }
 
 async function getWeatherData(lat, lon, city) {
-    const weatherResponse = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=imperial&appid=${apiKey}`);
+    const weatherResponse = await fetch(`${proxyUrl}https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=imperial&appid=${apiKey}`);
     const weatherData = await weatherResponse.json();
-    const forecastResponse = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=imperial&appid=${apiKey}`);
+    const forecastResponse = await fetch(`${proxyUrl}https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=imperial&appid=${apiKey}`);
     const forecastData = await forecastResponse.json();
     displayWeather(weatherData, city);
     displayForecast(forecastData.list);
@@ -55,8 +56,6 @@ async function getWeatherData(lat, lon, city) {
 
 function displayWeather(data, city) {
     currentTempF = data.main.temp;
-    const tempHi = data.main.temp_max;
-    const tempLo = data.main.temp_min;
     const conditions = data.weather[0].description.toLowerCase();
     const weatherIcon = getWeatherIcon(conditions);
     const weatherBackground = getWeatherBackground(conditions);
