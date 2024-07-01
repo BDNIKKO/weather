@@ -14,7 +14,7 @@ async function getWeatherByZip() {
     const zipCode = document.getElementById('zip-code').value;
     if (zipCode) {
         const geoResponse = await fetch(`${proxyUrl}https://api.openweathermap.org/geo/1.0/zip?zip=${zipCode},US&appid=${apiKey}`);
-        const geoData = await geoResponse.json();
+        const geoData = await geoResponse.json(); // Parse the geo location data
         getWeatherData(geoData.lat, geoData.lon, geoData.name);
     } else {
         alert("Please enter a zip code.");
@@ -24,7 +24,8 @@ async function getWeatherByZip() {
 async function getWeatherByCityState() {
     const cityState = document.getElementById('city-state').value;
     if (cityState) {
-        const [city, state] = cityState.split(',').map(item => item.trim());
+        // split divides string into array of substrings, map iterates through each element--> trim removes whitespace from beg and end of string.
+        const [city, state] = cityState.split(',').map(item => item.trim()); 
         const geoResponse = await fetch(`${proxyUrl}https://api.openweathermap.org/geo/1.0/direct?q=${city},${state},US&appid=${apiKey}`);
         const geoData = await geoResponse.json();
         getWeatherData(geoData[0].lat, geoData[0].lon, geoData[0].name);
