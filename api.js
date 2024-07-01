@@ -1,40 +1,48 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Add event listeners to the buttons
     document.getElementById('zip-code-btn').addEventListener('click', getWeatherByZip);
     document.getElementById('city-state-btn').addEventListener('click', getWeatherByCityState);
     document.getElementById('geo-btn').addEventListener('click', getWeatherByGeo);
     document.getElementById('convert-temp').addEventListener('click', convertTemperature);
 });
 
+// Initialize global variables
 let currentTempF = 0;
 let isCelsius = false;
 const apiKey = 'f9acd824dab7816e7165a2c185c13d65';
 const proxyUrl = ''; // Set to 'https://cors-anywhere.herokuapp.com/' if needed for CORS
 
+// Function to get weather data by zip code
 async function getWeatherByZip() {
     const zipCode = document.getElementById('zip-code').value;
     if (zipCode) {
+        // Fetch geo location data by zip code
         const geoResponse = await fetch(`${proxyUrl}https://api.openweathermap.org/geo/1.0/zip?zip=${zipCode},US&appid=${apiKey}`);
-        const geoData = await geoResponse.json(); // Parse the geo location data
+        const geoData = await geoResponse.json();
         getWeatherData(geoData.lat, geoData.lon, geoData.name);
     } else {
         alert("Please enter a zip code.");
     }
-}
     // When await is used in front of a Promise, it pauses the execution of the async function until the Promise is settled.
+}
 
+// Function to get weather data by city and state
 async function getWeatherByCityState() {
     const cityState = document.getElementById('city-state').value;
     if (cityState) {
-        // split divides string into array of substrings, map iterates through each element--> trim removes whitespace from beg and end of string.
-        const [city, state] = cityState.split(',').map(item => item.trim()); 
+        // Split divides the string into an array of substrings
+        // Map iterates through each element and trim removes whitespace from the beginning and end of the string
+        const [city, state] = cityState.split(',').map(item => item.trim());
+        // Fetch geo location data by city and state
         const geoResponse = await fetch(`${proxyUrl}https://api.openweathermap.org/geo/1.0/direct?q=${city},${state},US&appid=${apiKey}`);
-        const geoData = await geoResponse.json(); // Parse the geo location data
-        getWeatherData(geoData[0].lat, geoData[0].lon, geoData[0].name); // Fetch and display weather data
+        const geoData = await geoResponse.json();
+        getWeatherData(geoData[0].lat, geoData[0].lon, geoData[0].name);
     } else {
         alert("Please enter a city and state.");
     }
 }
 
+// Function to get weather data by geolocation
 async function getWeatherByGeo() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(async position => {
@@ -47,17 +55,19 @@ async function getWeatherByGeo() {
     }
 }
 
+// Function to fetch and display weather data based on latitude and longitude
 async function getWeatherData(lat, lon, city) {
     const weatherResponse = await fetch(`${proxyUrl}https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=imperial&appid=${apiKey}`);
-    const weatherData = await weatherResponse.json();  // Parse the current weather data
+    const weatherData = await weatherResponse.json();
     const forecastResponse = await fetch(`${proxyUrl}https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=imperial&appid=${apiKey}`);
     const forecastData = await forecastResponse.json();
     displayWeather(weatherData, city);
     displayForecast(forecastData.list);
 }
 
+// Function to display the current weather data
 function displayWeather(data, city) {
-    currentTempF = data.main.temp;
+    currentTempF = data.main.temp; // Update the global variable with the current temperature
     const conditions = data.weather[0].description.toLowerCase();
     const weatherIcon = getWeatherIcon(conditions);
     const weatherBackground = getWeatherBackground(conditions);
@@ -65,12 +75,9 @@ function displayWeather(data, city) {
     document.getElementById('location').textContent = city;
     document.getElementById('temperature').innerHTML = `${weatherIcon} ${currentTempF}°F`;
     document.getElementById('feels-like').textContent = `${data.main.feels_like}°F`;
+    // Capitalize the first letter of the conditions and set the weather condition text
     document.getElementById('weather-condition').textContent = conditions.charAt(0).toUpperCase() + conditions.slice(1);
-// conditions.slice(1) extracts the substring starting from the second character to the end of the string.
-// conditions.charAt(0).toUpperCase() would return "C".
-// Without conditions.slice(1), the result would be just "C" and not the full string.
 
-This ensures that the rest of the string remains unchanged and is concatenated with the capitalized first character.
     const weatherIconElement = document.getElementById('weather-icon');
     weatherIconElement.innerHTML = weatherIcon;
     weatherIconElement.className = 'weather-icon';
@@ -79,6 +86,7 @@ This ensures that the rest of the string remains unchanged and is concatenated w
     document.querySelector('.bg-image img').src = weatherBackground;
 }
 
+// Function to get the background image based on weather conditions
 function getWeatherBackground(conditions) {
     if (conditions.includes('thunderstorm') || conditions.includes('drizzle') || conditions.includes('rain')) {
         return 'images/rainy.jpg';
@@ -91,6 +99,7 @@ function getWeatherBackground(conditions) {
     }
 }
 
+// Function to get the weather icon based on weather conditions
 function getWeatherIcon(conditions) {
     if (conditions.includes('rain')) {
         return '<i class="fas fa-cloud-showers-heavy"></i>';
@@ -103,6 +112,7 @@ function getWeatherIcon(conditions) {
     }
 }
 
+// Function to get the weather condition class based on weather conditions
 function getWeatherConditionClass(conditions) {
     if (conditions.includes('rain')) {
         return 'rainy';
@@ -115,11 +125,12 @@ function getWeatherConditionClass(conditions) {
     }
 }
 
+// Function to display the weather forecast data
 function displayForecast(forecastList) {
     const forecastData = document.getElementById('forecast');
     forecastData.innerHTML = '';
 
-    for (let i = 0; i < forecastList.length; i += 8) { 
+    for (let i = 0; i < forecastList.length; i += 8) {
         const forecast = forecastList[i];
         const forecastElement = document.createElement('div');
         forecastElement.className = 'forecast-day';
@@ -132,13 +143,19 @@ function displayForecast(forecastList) {
     }
 }
 
+// Function to convert the temperature between Fahrenheit and Celsius
 function convertTemperature() {
     if (isCelsius) {
+        // Display temperature in Fahrenheit
         document.getElementById('temperature').innerHTML = getWeatherIcon(document.getElementById('weather-condition').textContent) + ` ${currentTempF}°F`;
         isCelsius = false;
     } else {
+        // Convert temperature to Celsius and display it
         const tempC = ((currentTempF - 32) * 5 / 9).toFixed(2);
         document.getElementById('temperature').innerHTML = getWeatherIcon(document.getElementById('weather-condition').textContent) + ` ${tempC}°C`;
         isCelsius = true;
     }
+    // Formula: ((currentTempF - 32) * 5 / 9) Explanation: Converts Fahrenheit to Celsius using the formula (F - 32) * 5 / 9.
+    // toFixed(2): Rounds the result to 2 decimal places, ensuring the temperature is displayed with two digits after the decimal point.
+    // tempC: Stores the converted temperature in Celsius as a string.
 }
