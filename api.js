@@ -20,6 +20,7 @@ async function getWeatherByZip() {
         alert("Please enter a zip code.");
     }
 }
+    // When await is used in front of a Promise, it pauses the execution of the async function until the Promise is settled.
 
 async function getWeatherByCityState() {
     const cityState = document.getElementById('city-state').value;
@@ -27,8 +28,8 @@ async function getWeatherByCityState() {
         // split divides string into array of substrings, map iterates through each element--> trim removes whitespace from beg and end of string.
         const [city, state] = cityState.split(',').map(item => item.trim()); 
         const geoResponse = await fetch(`${proxyUrl}https://api.openweathermap.org/geo/1.0/direct?q=${city},${state},US&appid=${apiKey}`);
-        const geoData = await geoResponse.json();
-        getWeatherData(geoData[0].lat, geoData[0].lon, geoData[0].name);
+        const geoData = await geoResponse.json(); // Parse the geo location data
+        getWeatherData(geoData[0].lat, geoData[0].lon, geoData[0].name); // Fetch and display weather data
     } else {
         alert("Please enter a city and state.");
     }
@@ -48,7 +49,7 @@ async function getWeatherByGeo() {
 
 async function getWeatherData(lat, lon, city) {
     const weatherResponse = await fetch(`${proxyUrl}https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=imperial&appid=${apiKey}`);
-    const weatherData = await weatherResponse.json();
+    const weatherData = await weatherResponse.json();  // Parse the current weather data
     const forecastResponse = await fetch(`${proxyUrl}https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=imperial&appid=${apiKey}`);
     const forecastData = await forecastResponse.json();
     displayWeather(weatherData, city);
@@ -65,7 +66,11 @@ function displayWeather(data, city) {
     document.getElementById('temperature').innerHTML = `${weatherIcon} ${currentTempF}°F`;
     document.getElementById('feels-like').textContent = `${data.main.feels_like}°F`;
     document.getElementById('weather-condition').textContent = conditions.charAt(0).toUpperCase() + conditions.slice(1);
+// conditions.slice(1) extracts the substring starting from the second character to the end of the string.
+// conditions.charAt(0).toUpperCase() would return "C".
+// Without conditions.slice(1), the result would be just "C" and not the full string.
 
+This ensures that the rest of the string remains unchanged and is concatenated with the capitalized first character.
     const weatherIconElement = document.getElementById('weather-icon');
     weatherIconElement.innerHTML = weatherIcon;
     weatherIconElement.className = 'weather-icon';
