@@ -131,9 +131,14 @@ function displayForecast(forecastList) {
     forecastData.innerHTML = '';
 
     for (let i = 0; i < forecastList.length; i += 8) {
+        //Extract the forecast data for the current day (i.e., every 8th element in the forecastList array)
         const forecast = forecastList[i];
+        // Create a new <div> element to hold the forecast for the current day
         const forecastElement = document.createElement('div');
         forecastElement.className = 'forecast-day';
+        // Set the inner HTML of the <div> to include the date, maximum temperature, and weather description
+        // The date is formatted to show a short name for the weekday (e.g., "Mon", "Tue")
+        // The forecast.dt property contains a Unix timestamp (in seconds), so it is multiplied by 1000 to convert it to milliseconds for the JavaScript Date object
         forecastElement.innerHTML = `
             <h5>${new Date(forecast.dt * 1000).toLocaleDateString(undefined, { weekday: 'short' })}</h5>
             <p><strong>${forecast.main.temp_max}°F</strong></p>
